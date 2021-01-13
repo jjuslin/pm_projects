@@ -43,9 +43,9 @@ function Home(props) {
 
 {/* If User exists then do not display the Register and Login buttons */}
 {user && (
-<Link to ="/meetings" className="btn btn-primary">
+<Link to ="/listproject" className="btn btn-primary">
 
-Meetings
+Projects
 
 </Link>
 

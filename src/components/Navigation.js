@@ -13,7 +13,7 @@ function Navigation(props) {
         </Link>
         <div className="navbar-nav ml-auto">
           {user && (
-            <Link className="nav-item nav-link" to="/meetings">
+            <Link className="nav-item nav-link" to="/listproject">
               Project List
             </Link>
           )}

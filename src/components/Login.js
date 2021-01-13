@@ -39,7 +39,7 @@ function Login(props) {
        registrationInfo.password
 
      ).then(() => {
-       navigate('/meetings')
+       navigate('/listproject')
      })
      .catch(error=> {
        if (error.message !== null) {

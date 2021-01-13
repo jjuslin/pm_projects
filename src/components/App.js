@@ -238,7 +238,7 @@ b[allOrder.orderBy].toLowerCase())
                 <Router>
                 <Home path="/" user={intialState.user}/>
                 <Login path="/login" />
-                <Meetings path="/meetings" />
+                <ListProject path="/listproject" appointments= {filteredItems} />
                 <Register path="/register" registerUser={registerUser}/>
                 </Router>
                      
