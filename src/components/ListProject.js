@@ -11,8 +11,8 @@ function ListProject(props) {
           
         return (
             <div className="appointment-list item-list mb-3">
-        {props.appointments.map((item, index) => (         
-          <div className="pet-item col media py-3" key = {index}>         
+        {props.appointments.map((item) => (         
+          <div className="pet-item col media py-3" key = {item._id}>         
               
             <div className="mr-3">
                 
@@ -33,31 +33,49 @@ function ListProject(props) {
                   suppressContentEditableWarning
                   onBlur={
                     e => props.updateInfo(
-                      'petName',
+                      'projectName',
                       e.target.innerText,
-                      index
+                      item._id
                     )
                   }
-                  >{index}----{item.petName} </span>
+                  >{item.projectName} </span>
+
                 <span className="apt-date ml-auto">
                <Moment
-                    date={item.aptDate}
-                    parse = "YYYY-MM-dd hh:mm"
-                    format= "MMM-D h:mma"
+                    date={item.projectDate}
+                    //parse = "YYYY-MM-dd hh:mm"
+                    format= "MMM-D-YY "
                />
                 </span>
               </div>
 
               <div className="owner-name">
-                <span className="label-item">Owner: </span>
-                <span  contentEditable 
-                  suppressContentEditableWarning>
-                  {item.ownerName}
+                <span className="label-item">Location: </span>
+                <span contentEditable 
+                  suppressContentEditableWarning 
+                  onBlur={
+                    e => props.updateInfo(
+                      'projectLocation',
+                      e.target.innerText,
+                      item._id
+                    )
+                  }>
+                  {item.projectLocation}
                 </span>
               </div>
-              <div className="apt-notes"
- >
-                {item.aptNotes}
+              <div className="apt-notes">
+              <span className="label-item">Description: </span>
+                <span  contentEditable 
+                  suppressContentEditableWarning
+                  onBlur={
+                    e => props.updateInfo(
+                      'projectDescription',
+                      e.target.innerText,
+                      item._id
+                    )
+                    }>
+                {item.projectDescription}
+                </span>
               </div>
             </div>
           </div>

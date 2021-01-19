@@ -17,6 +17,11 @@ function Navigation(props) {
               Project List
             </Link>
           )}
+          {user && (
+            <Link className="nav-item nav-link" to="/addproject">
+              Add Project
+            </Link>
+          )}
           {!user && (
             <Link className="nav-item nav-link" to="/login">
               log in

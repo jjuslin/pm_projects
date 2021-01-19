@@ -7,11 +7,11 @@ function AppProject(props) {
     const [allValues,setAllValues]= useReducer (
       (state, newState) => ({ ...state, ...newState}),
       {     
-    petName: '',
-    ownerName: '',
-    aptDate: '',
-    aptTime: '',
-    aptNotes: ''
+    projectName: '',
+    projectLocation: '',
+    projectDate: '',
+    projectTime: '',
+    projectDescription: ''
   });
 
     function handleChange(e){
@@ -24,14 +24,15 @@ function AppProject(props) {
    function handleAdd(e) {
        e.preventDefault();
        let temptApt = {
-         petName: allValues.petName,
-         ownerName: allValues.ownerName,
-         aptDate: allValues.aptDate + ' '+ allValues.aptTime,
-         aptNotes: allValues.aptNotes
+         projectName: allValues.projectName,
+         projectLocation: allValues.projectLocation,
+         projectDate: allValues.projectDate,
+         projectTime: allValues.projectTime,
+         projectDescription: allValues.projectDescription
        };
        props.addItemToList(temptApt);
        setAllValues();
-       props.toggleForm();
+      // props.toggleForm();
    }
    
         return (
@@ -40,26 +41,27 @@ function AppProject(props) {
                 (props.formDisplay ? '' :'add-appointment') }>
           
         <div className="apt-addheading card-header bg-primary text-white" onClick={props.toggleForm}>
-         <FaPlus /> Add Appointment
+         <FaPlus /> Add Project
         </div>
 
         <div className="card-body">
-          <form id="aptForm" noValidate
+          <form id="aptForm" 
           onSubmit = {handleAdd}>
             <div className="form-group form-row">
               <label
                 className="col-md-2 col-form-label text-md-right"
-                htmlFor="petName"
+                htmlFor="projectName"
                 readOnly>
-                Pet Name
+                Project Title
               </label>
               <div className="col-md-10">
                 <input
                   type="text"
                   className="form-control"
-                  name="petName"
-                  placeholder="Pet's Name"
-                  value ={allValues.petName}
+                  name="projectName"
+                  placeholder="Project Name"
+                  required
+                  value ={allValues.projectName}
                   onChange={handleChange}
                   
                 />
@@ -69,17 +71,19 @@ function AppProject(props) {
             <div className="form-group form-row">
               <label
                 className="col-md-2 col-form-label text-md-right"
-                htmlFor="ownerName"
+                htmlFor="projectLocation"
               >
-                Pet Owner
+                Project Location
               </label>
               <div className="col-md-10">
                 <input
+                  required
                   type="text"
                   className="form-control"
-                  name="ownerName"
-                  placeholder="Owner's Name"
-                  value ={allValues.ownerName}
+                  name="projectLocation"
+                  placeholder="Location"
+                
+                  value ={allValues.projectLocation}
                   onChange={handleChange}
                   
                 />
@@ -89,7 +93,7 @@ function AppProject(props) {
             <div className="form-group form-row">
               <label
                 className="col-md-2 col-form-label text-md-right"
-                htmlFor="aptDate"
+                htmlFor="projectDate"
               >
                 Date
               </label>
@@ -97,25 +101,28 @@ function AppProject(props) {
                 <input
                   type="date"
                   className="form-control"
-                  name="aptDate"
-                  id="aptDate"
-                  value ={allValues.aptDate}
+                  name="projectDate"
+                  id="projectDate"
+                  required
+                  value ={allValues.projectDate}
                   onChange={handleChange}
                 />
               </div>
               <label
                 className="col-md-2 col-form-label text-md-right"
-                htmlFor="aptTime"
+                htmlFor="projectTime"
               >
                 Time
               </label>
               <div className="col-md-4">
                 <input
+                required
                   type="time"
                   className="form-control"
-                  name="aptTime"
-                  id="aptTime"
-                  value ={allValues.aptTime}
+                  name="projectTime"
+                  id="projectTime"
+                  
+                  value ={allValues.projectTime}
                   onChange={handleChange}
                   
                 />
@@ -123,18 +130,20 @@ function AppProject(props) {
             </div>
 
             <div className="form-group form-row">
-              <label className="col-md-2 text-md-right" htmlFor="aptNotes">
-                Apt. Notes
+              <label className="col-md-2 text-md-right" htmlFor="projectDescription">
+                Proj. Description
               </label>
               <div className="col-md-10">
                 <textarea
+                  required
+
                   className="form-control"
                   rows="4"
                   cols="50"
-                  name="aptNotes"
-                  id="aptNotes"
-                  placeholder="Appointment Notes"
-                  value ={allValues.aptNotes}
+                  name="projectDescription"
+                  id="projectDescription"
+                  placeholder="Project Notes"
+                  value ={allValues.projectDescription}
                   onChange={handleChange}
                  
                 />
@@ -147,7 +156,7 @@ function AppProject(props) {
                   type="submit"
                   className="btn btn-primary d-block ml-auto"
                 >
-                  Add Appointment
+                  Add Project
                 </button>
               </div>
             </div>

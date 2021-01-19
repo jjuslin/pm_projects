@@ -27,28 +27,28 @@ function SearchProject(props) {
                   <div className="sort-menu dropdown-menu dropdown-menu-right">
                     <button
                       className = {'sort-by dropdown-item '+ 
-                      (props.orderBy ==='petName' ? 'active':'') } 
+                      (props.orderBy ==='projectName' ? 'active':'') } 
                       href="#" 
-                      onClick={ e=> props.changeOrder('petName', props.orderDir)}                       
+                      onClick={ e=> props.changeOrder('projectName', props.orderDir)}                       
                     >
-                      Pet Name
+                      Project Name
                     </button>
                     <button
                       className={'sort-by dropdown-item '+ 
-                      (props.orderBy ==='aptDate' ? 'active':'') } 
-                      onClick={ e=> props.changeOrder('aptDate', props.orderDir)}
+                      (props.orderBy ==='projectDate' ? 'active':'') } 
+                      onClick={ e=> props.changeOrder('projectDate', props.orderDir)}
                       href="#"
                     >
                       Date
                     </button>
                     <button
                       className={'sort-by dropdown-item '+ 
-                     (props.orderBy ==='ownerName' ? 'active':'' )} 
-                     onClick={ e=> props.changeOrder('ownerName', props.orderDir)}
+                     (props.orderBy ==='projectLocation' ? 'active':'' )} 
+                     onClick={ e=> props.changeOrder('projectLocation', props.orderDir)}
                       href="#"                      
                     
                     >
-                      Owner
+                      Location
                     </button>
                     <div role="separator" className="dropdown-divider" />
                     <button

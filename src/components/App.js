@@ -5,6 +5,7 @@ import AddProject from './AddProject'
 import SearchProject from './SearchProject'
 import ListProject from './ListProject';
 import {Router, navigate} from '@reach/router';
+import axios from 'axios';
 import Home from './Home.js';
 import Meetings from './Meetings.js';
 import Welcome from './Welcome.js';
@@ -14,7 +15,8 @@ import Register from './Register.js';
 
 
 
-import { without, findIndex } from 'lodash';
+import { isEqual, findIndex } from 'lodash';
+import { FaIgloo } from 'react-icons/fa';
 
 
 function App() {
@@ -66,10 +68,10 @@ const handleSearch = e => {
   })
 } */
 
-const [myappointments, setMyAppointments] = useState([]);
+const [my_projects, setMy_projects] = useState([]);
 
 
-const [formDisplay, setFormDisplay]  = useState(false);
+const [formDisplay, setFormDisplay]  = useState(true);
 //const [queryText, setQueryText] = useState('');
 //const [orderBy, setOrderBy] = useState('ownerName');
 //const[orderDir, setOrderDir] = useState('asc');
@@ -77,7 +79,7 @@ const [formDisplay, setFormDisplay]  = useState(false);
 const [allOrder,setAllOrder]= useReducer (
   (state, newState) => ({ ...state, ...newState}),
   {     
-orderBy: 'ownerName',
+orderBy: 'projectName',
 orderDir: 'asc',
 queryText: ''
 });
@@ -102,9 +104,10 @@ queryText: ''
 }) 
         
 
-    fetch('./data.json')
+    //fetch('./data.json')
+    fetch('http://localhost:4000/projects')
     .then(response => response.json())
-     .then(setMyAppointments)
+     .then(setMy_projects)
     
         .catch(console.error)
 
@@ -146,13 +149,27 @@ queryText: ''
     })
   }
  
-  function handleRemove( id) {
-    // remove item
-    
-  const  val = without(myappointments,id)
-  setMyAppointments(val);
-     console.log( val);
+  function handleRemove( item) {
+
+    axios.delete('http://localhost:4000/projects/'+item._id)
+  .then((response) => {
+     console.log(response, " succesfully deleted");
+  })
+  .catch((error) =>{
+console.log(error);
+//console.log(id)
+
   }
+  )
+ 
+    // remove item
+    //console.log(id);
+  //const  val = without(my_projects,id)
+  //setMy_projects(val);
+     //console.log( val);
+  }
+
+
 
   function searchItems(query){
     setAllOrder({queryText: query });
@@ -167,17 +184,67 @@ function changeOrder(order, dir) {
   }
 
   function updateInfo (name, value, id){
-    let tempInfo = myappointments;
+    let tempInfo = my_projects;
     console.log(id)
-    let currentIndex = findIndex(myappointments, {
-      currentIndex: id
+    console.log(name)
+    console.log(value)
+    console.log(tempInfo)
+    let currentIndex = findIndex(my_projects, {
+      _id: id
     });
     tempInfo[currentIndex][name] = value;
-    setMyAppointments(
-      {
-        myappointments: tempInfo
-      }
-    )
+
+     if(isEqual(name,"projectLocation"))
+     {
+      axios.put('http://localhost:4000/projects/'+id,{
+        projectLocation:value})
+        .then((response) => {
+           console.log(response, " succesfully updated", tempInfo[currentIndex][name]);
+        })
+        .catch((error) =>{
+      console.log(error); 
+      
+        })        
+
+     } else if (isEqual(name,"projectName"))
+     {
+      axios.put('http://localhost:4000/projects/'+id,{
+        projectName:value})
+        .then((response) => {
+           console.log(response, " succesfully updated", tempInfo[currentIndex][name]);
+        })
+        .catch((error) =>{
+      console.log(error); 
+      
+        })        
+
+     } 
+
+     else if (isEqual(name,"projectDescription"))
+     {
+      axios.put('http://localhost:4000/projects/'+id,{
+        projectDescription:value})
+        .then((response) => {
+           console.log(response, " succesfully updated", tempInfo[currentIndex][name]);
+        })
+        .catch((error) =>{
+      console.log(error); 
+      
+        })        
+
+     } 
+   
+     
+   
+     
+      
+     
+     //console.log(" update needed")
+    //setMy_projects(
+     // {
+       // myappointments: tempInfo
+     // }
+   // )
   }
 
 
@@ -191,13 +258,31 @@ function changeOrder(order, dir) {
 
 function addItemToList(apt )
 {
-  myappointments.unshift(apt)
- 
   
+  axios.post('http://localhost:4000/projects', {
+  projectName: apt.projectName,
+  projectLocation: apt.projectLocation,
+  projectDate: apt.projectDate,
+  projectTime: apt.projectTime,
+
+ projectDescription: apt.projectDescription
+  //my_projects.unshift(apt)
+  //console.log(apt.projectDate)
+  })
+  .then((response) => {
+     console.log(response);
+  })
+  .catch((error) =>{
+console.log(error);
+
+  }
+  )
+ 
+  console.log(apt.projectTime)
 }
  
 let order;
-let filteredItems = myappointments;
+let filteredItems = my_projects;
 if (allOrder.orderDir === 'asc')
 {
   order = 1;
@@ -218,11 +303,12 @@ b[allOrder.orderBy].toLowerCase())
 
 }).filter(eachItem => {
   return(
-    eachItem['petName'].toLowerCase().includes(allOrder.queryText.toLowerCase()) ||
-    eachItem['ownerName'].toLowerCase().includes(allOrder.queryText.toLowerCase()) ||
-    eachItem['aptNotes'].toLowerCase().includes(allOrder.queryText.toLowerCase()) 
+    eachItem['projectName'].toLowerCase().includes(allOrder.queryText.toLowerCase()) ||
+    eachItem['projectLocation'].toLowerCase().includes(allOrder.queryText.toLowerCase()) ||
+    eachItem['projectDescription'].toLowerCase().includes(allOrder.queryText.toLowerCase()) 
   );
 });
+
   return (
     
     <main className="page bg-white" id="petratings">
@@ -234,19 +320,34 @@ b[allOrder.orderBy].toLowerCase())
               logOutUser = {logOutUser}/>
                
               {intialState.user && <Welcome  userName={intialState.displayName} logOutUser = {logOutUser} /> }  
-
+              {intialState.user && <SearchProject 
+                orderBy = {allOrder.orderBy}
+                orderDir = {allOrder.orderDir}
+                changeOrder = {changeOrder}
+                searchItems = {searchItems} />  }
+                
                 <Router>
                 <Home path="/" user={intialState.user}/>
                 <Login path="/login" />
-                <ListProject path="/listproject" appointments= {filteredItems} />
-                <Register path="/register" registerUser={registerUser}/>
+               {/* <ListProject path="/listproject" appointments= {filteredItems} /> */}  
+               <ListProject path="/listproject"
+                appointments= {filteredItems}   
+                deleteAppointment = {handleRemove}
+                updateInfo={updateInfo}
+                searchItems = {searchItems}
+                />
+              <Register path="/register" registerUser={registerUser}/>        
+                <AddProject path = "/addproject" formDisplay ={formDisplay}
+                //toggleForm = {toggleForm}
+                addItemToList = {addItemToList}/>  
+                 
+
                 </Router>
-                     
-                {/*
-                <AddProject  formDisplay ={formDisplay}
+                 {/*
+                  <AddProject path = "/addproject" formDisplay ={formDisplay}
                 toggleForm = {toggleForm}
                 addItemToList = {addItemToList}/>
-                <SearchProject 
+                 <SearchProject 
                 orderBy = {allOrder.orderBy}
                 orderDir = {allOrder.orderDir}
                 changeOrder = {changeOrder}

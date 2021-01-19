@@ -39,7 +39,8 @@ function Login(props) {
        registrationInfo.password
 
      ).then(() => {
-       navigate('/listproject')
+     
+      navigate('/listproject')
      })
      .catch(error=> {
        if (error.message !== null) {
