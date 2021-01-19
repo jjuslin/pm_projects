@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import {projectTemplate} from '../models/projectModel.js'
+import {projectTemplate} from '../models/projectModel.js';
 
 const Project = mongoose.model('Project', projectTemplate);
 

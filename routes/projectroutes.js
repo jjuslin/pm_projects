@@ -4,6 +4,7 @@ import {addNewProject, getProjects, getProjetcWithID, updateProject, deleteProje
 const routes = (app) => {
     app.route('/projects')
     // GET endpoint
+    
     .get(getProjects)
     //POST endpoint
          .post(addNewProject);

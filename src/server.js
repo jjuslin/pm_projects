@@ -6,10 +6,10 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import path from 'path'
 import routes from '../routes/projectroutes.js'
-//const routesUrls = require ('./backend/routes/routes')
+
 
 const __dirname = path.resolve(path.dirname('')); 
-//import routes from '../routes/routes'
+
 
 
 const app = express()

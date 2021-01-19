@@ -9,11 +9,11 @@ export const projectTemplate = new Schema({
         required: true
     },
 
-    projectLocation:{
+    projectLocation: {
         type: String,
         required: true
     },
-    projectDate:{
+    projectDate: {
         type: Date,
         required: true
     },
